@@ -24,7 +24,7 @@ void *customer(void *a)
 
         emptyChairs--; //if customer gets a seat decrement empty chairs
 
-        printf("Customer %d is taking a seat\n", *((int *)a));
+        printf("Customer %d is taking seat\n", *((int *)a));
 
         sem_post(&mutex); //increment mutex
         sem_post(&waitingCustomer); // increment a waiting customer
@@ -54,7 +54,7 @@ void *barber(void *b)
 }
 int main(int argc, char *argv[])
 {
-    pthread_t customer_threads[100]; //declare customer thread
+    pthread_t customer_ID[100]; //declare customer thread
     pthread_t barber_thread; //declare barber thread
     
     sem_init(&mutex, 0, 1); //initialize mutex semaphore
@@ -65,11 +65,11 @@ int main(int argc, char *argv[])
    
     for (int i = 0; i < 100; i++){
         num_customers[i] = i + 1; //update customer count
-        pthread_create(&customer_threads[i], NULL, customer, &num_customers[i]); //creates thread for customers
+        pthread_create(&customer_ID[i], NULL, customer, &num_customers[i]); //creates thread for customers
     }
  
     for (int i = 0; i < 100; i++){ //iterating through all customer threads
-        pthread_join(customer_threads[i], NULL); 
+        pthread_join(customer_ID[i], NULL); 
     }
   
     sem_destroy(&mutex); //destroy mutex semaphore
